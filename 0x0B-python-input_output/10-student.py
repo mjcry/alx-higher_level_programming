@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-'''Task 11 - 11. Student to disk and reload'''
+'''Task 10 - 10. Student to JSON with filter'''
 
 
 class Student():
@@ -26,9 +26,3 @@ class Student():
                 if i in self.__dict__.keys():
                     tmp[i] = self.__dict__[i]
             return tmp
-
-    def reload_from_json(self, json):
-        """Replaces all items in Json"""
-
-        for a in json.keys():
-            self.__dict__[a] = json[a]
