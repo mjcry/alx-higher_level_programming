@@ -1,5 +1,12 @@
 #!/usr/bin/node
-const num = process.argv.splice(2).map((z) => parseInt(z)).sort((a, b) => (a - b));
-if (num.length < 2) console.log(0);
-else console.log(num[num.length - 2]);
 
+const second = [0, 0];
+let secondSorted;
+
+for (let i = 2; i < process.argv.length; i++) {
+  second[i] = parseInt(process.argv[i]);
+}
+secondSorted = second.sort(function (a, b) { return a - b; });
+secondSorted = secondSorted.reverse();
+
+console.log(secondSorted[1]);
