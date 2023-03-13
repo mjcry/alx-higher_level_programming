@@ -1,8 +1,15 @@
 #!/usr/bin/node
-const num = parseInt(process.argv[2]);
-if (isNaN(num)) console.log('Missing size');
-else {
-  let v = '';
-  for (let i = 0; i < num; i++) v += 'X';
-  v.split('').forEach(() => console.log(v));
+// Thi's a script in JavaScript that prints a square of a given size using the character X
+
+const { argv } = require('process');
+const n = parseInt(argv[2]);
+
+if (!n) {
+  console.log('Missing size');
+}
+for (let i = 0; i < n; i++) {
+  for (let b = 0; b < n; b++) {
+    process.stdout.write('X');
+  }
+  console.log('');
 }
