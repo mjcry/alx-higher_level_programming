@@ -1,36 +1,26 @@
 #!/usr/bin/python3
-"""
-Deletes all State objects with a name containing
-the letter a from the database hbtn_0e_6_usa
-"""
+"""Initialize database"""
 from model_city import City
 from model_state import Base, State
-import sys
-from sqlalchemy import create_engine, join
+from sqlalchemy import (create_engine)
 from sqlalchemy.orm import sessionmaker
+from sys import argv
 
-
-def model_city_fetch_by_state():
-        """prints all City objects from the database hbtn_0e_14_usa"""
-        
-        url = 'mysql+mysqldb://{}:{}@localhost/{}'.format(sys.argv[1],
-                                                        sys.argv[2],
-                                                        sys.argv[3])
-        engine = create_engine(url, pool_pre_ping=True)
-        City.metadata.create_all(engine)
-        Base.metadata.create_all(engine)
-        State.metadata.create_all(engine)
-
-        Session = sessionmaker(bind=engine)
-
-        conn = engine.connect()
-        session = Session(bind=conn)
-
-        objs = session.query(City.name, City.id, State.name).\
-            join(State).order_by(City.id).all()
-
-        for obj in objs:
-            print('{}: ({}) {}'.format(obj[2], obj[1], obj[0]))
 
 if __name__ == "__main__":
-    model_city_fetch_by_state()
+    """
+    Conecting to database and quering
+    """
+    sql = 'mysql+mysqldb://{}:{}@localhost:3306/{}'
+    engine = create_engine(sql.format(argv[1],
+                                      argv[2], argv[3]), pool_pre_ping=True)
+    Base.metadata.create_all(engine)
+    Session = sessionmaker()
+    Session.configure(bind=engine)
+    session = Session()
+    for s, c in session.query(State, City).\
+            order_by(City.id).\
+            filter(City.state_id == State.id).\
+            all():
+        print("{}: ({}) {}".format(s.name, c.id, c.name))
+    session.close()

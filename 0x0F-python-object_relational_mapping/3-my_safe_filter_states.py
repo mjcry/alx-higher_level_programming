@@ -1,16 +1,29 @@
 #!/usr/bin/python3
-"""
-Once again, write a script that takes in arguments
-and displays all values in the states
-table of hbtn_0e_0_usa where name matches the argument.
-But this time, write one that
-is safe from MySQL injections!
-"""
-import sys
 import MySQLdb
+from sys import argv
 
-if __name__ == "__main__":
-    db = MySQLdb.connect(user=sys.argv[1], passwd=sys.argv[2], db=sys.argv[3])
-    c = db.cursor()
-    c.execute("SELECT * FROM `states`")
-    [print(state) for state in c.fetchall() if state[1] == sys.argv[4]]
+
+def sqlConection():
+    """
+    Conecting a quering to database
+    """
+    try:
+        db_connection = MySQLdb.connect(host="localhost", port=3306,
+                                        user=argv[1], password=argv[2],
+                                        db=argv[3], charset="utf8")
+    except Exception:
+        print("Can't connect to database")
+        return 0
+    cur = db_connection.cursor()
+    sql = "SELECT * FROM states WHERE name LIKE %s ORDER BY id ASC"
+    data = (argv[4],)
+    cur.execute(sql, data)
+    query_rows = cur.fetchall()
+    for row in query_rows:
+        if row[1] == argv[4]:
+            print(row)
+    cur.close()
+    db_connection.close()
+
+
+sqlConection()
