@@ -1,6 +1,4 @@
 #!/usr/bin/node
-
-const JSON = require('JSON');
 const request = require('request');
 const url = process.argv[2];
 request.get(url, function (err, response, body) {
@@ -16,3 +14,4 @@ request.get(url, function (err, response, body) {
   }
   console.log(count);
 });
+
