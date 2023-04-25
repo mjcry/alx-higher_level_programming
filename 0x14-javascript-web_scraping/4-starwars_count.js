@@ -1,17 +1,19 @@
-#!/usr/bin/node 
-
+#!/usr/bin/node
 const request = require('request');
-const url = process.argv[2];
-request.get(url, function (err, response, body) {
-  let count = 0;
-  if (err) {
-    console.log(err);
-  }
-  const data = JSON.parse(body);
-  for (let i = 0; data.results[i] !== undefined; i++) {
-    if (data.results[i].characters.includes('https://swapi-api.hbtn.io/api/people/18/')) {
-      count++;
+const apiUrl = process.argv[2];
+
+request(apiUrl, function (error, response, body) {
+  if (error) {
+    console.log(error);
+  } else {
+    const films = JSON.parse(body).results;
+    let count = 0;
+    for (const film of films) {
+      const characters = film.characters;
+      if (characters.includes('https://swapi-api.alx-tools.com/api/people/18/')) {
+        count++;
+      }
     }
+    console.log(count);
   }
-  console.log(count);
 });
