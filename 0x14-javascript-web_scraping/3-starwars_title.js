@@ -1,8 +1,12 @@
 #!/usr/bin/node
-const axios = require('axios').default;
-const ID = process.argv[2];
-const endPoint = `https://swapi-api.hbtn.io/api/films/${ID}`;
 
-axios.get(endPoint)
-  .then(res => console.log(res.data.title))
-  .catch(err => console.log(err.message));
+const request = require('request');
+const MovieId = process.argv[2];
+const url = 'https://swapi-api.hbtn.io/api/films/' + MovieId;
+request.get(url, function (err, response, body) {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(JSON.parse(body).title);
+  }
+});

@@ -1,17 +1,17 @@
 #!/usr/bin/node
 
-const axios = require('axios');
-const apiUrl = process.argv[2];
-
-axios.get(apiUrl)
-  .then(({ data }) => {
-    let count = 0;
-    const results = data.results;
-    results.forEach(film => {
-      film.characters.forEach(char => {
-        if (char.includes('18')) count++;
-      });
-    });
-    console.log(count);
-  })
-  .catch(err => console.log(err.message));
+const request = require('request');
+const url = process.argv[2];
+request.get(url, function (err, response, body) {
+  let count = 0;
+  if (err) {
+    console.log(err);
+  }
+  const data = JSON.parse(body);
+  for (let i = 0; data.results[i] !== undefined; i++) {
+    if (data.results[i].characters.includes('https://swapi-api.hbtn.io/api/people/18/')) {
+      count++;
+    }
+  }
+  console.log(count);
+});
