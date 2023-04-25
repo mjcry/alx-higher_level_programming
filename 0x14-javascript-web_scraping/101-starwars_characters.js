@@ -1,5 +1,4 @@
 #!/usr/bin/node
-
 const axios = require('axios');
 
 const getChar = async (url) => {
