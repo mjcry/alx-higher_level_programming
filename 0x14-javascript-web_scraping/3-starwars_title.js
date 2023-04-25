@@ -1,11 +1,8 @@
 #!/usr/bin/node
+const axios = require('axios').default;
+const ID = process.argv[2];
+const endPoint = `https://swapi-api.hbtn.io/api/films/${ID}`;
 
-const fs = require('fs');
-const FileName = process.argv[2];
-fs.readFile(FileName, 'utf8', function (err, line) {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(line);
-  }
-});
+axios.get(endPoint)
+  .then(res => console.log(res.data.title))
+  .catch(err => console.log(err.message));
